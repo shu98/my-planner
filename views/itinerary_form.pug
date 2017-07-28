@@ -1,0 +1,220 @@
+extends layout
+
+block content
+	h1= title
+
+	form.form-horizontal.container(method='POST' action='' novalidate)
+
+
+		h3 Basic Information
+
+		div#basicInfo
+			div.form-group
+				label.col-sm-2(for='destination' style='text-align: right' control-label) Destination
+				div.col-sm-10
+					input#destination.form-control(type='text' placeholder='Enter destination city' name='destination' required='true')
+
+			div.form-group
+				label.col-sm-2(for='from' style='text-align: right' control-label) From
+				div.col-sm-5
+					input#from.form-control(type='text' placeholder='Enter origin' name='from')
+				label.col-sm-1(for='by' style='text-align: right'  control-label) By
+				div.col-sm-4
+					select#by.form-control(type='select' name='by')
+						option(value='')
+						option(value='Airplane') Airplane
+						option(value='Bus') Bus
+						option(value='Car') Car
+						option(value='Subway/Metro') Subway/Metro
+						option(value='Taxi') Taxi
+						option(value='Train') Train
+						option(value='Other') Other
+
+			div.form-group
+				label.col-sm-2(for='budget' style='text-align: right' control-label) Budget
+				div.col-sm-10
+					div.input-group
+						span.input-group-addon(style='background-color:#FFF') $
+						input#budget.form-control(type='number' name='budget' placeholder='Enter total cost of trip')
+
+			div.form-group
+				label.col-sm-2(for='arrived' style='text-align: right'  control-label) Arrived
+				div.col-sm-4
+					input#arrived.form-control(type='date' name='arrived')
+				label.col-sm-2(for='time_arrive' style='text-align: right'  control-label) Time Arrived
+				div.col-sm-4
+					select#time_arrive.form-control(type='select' name='time_arrive')
+						option(value='')
+						option(value='Morning') Morning
+						option(value='Afternoon') Afternoon
+						option(value='Evening') Evening
+						option(value='Night') Night
+
+			div.form-group
+				label.col-sm-2(for='depart' style='text-align: right' control-label) Departed
+				div.col-sm-4
+					input#depart.form-control(type='date' name='depart')
+				label.col-sm-2(for='time_depart' style='text-align: right'  control-label) Time Departed
+				div.col-sm-4
+					select#time_depart.form-control(type='select' name='time_depart')
+						option(value='')
+						option(value='Morning') Morning
+						option(value='Afternoon') Afternoon
+						option(value='Evening') Evening
+						option(value='Night') Night
+			hr
+
+		h3 Lodging
+
+		div#lodging
+			div.form-group
+				label.col-sm-2(for='lodging_type' style='text-align: right' control-label) Type
+				div.col-sm-4
+					select#lodging_type.form-control(type='select'  name='lodging_type')
+						option(value='')
+						option(value='Hotel') Hotel
+						option(value='Hostel') Hostel
+						option(value='Motel') Motel
+						option(value='Airbnb') Airbnb
+						option(value='CouchSurfing') CouchSurfing
+						option(value="Family or friend home") Family or friend's home
+						option(value='Other') Other
+				label.col-sm-2(for='lodging_name' style='text-align: right'  control-label) Name
+				div.col-sm-4
+					input#lodging_name.form-control(type='text' name='lodging_name' placeholder='The Grand Budapest Hotel')
+			div.form-group
+				label.col-sm-2(for='lodging_rating' style='text-align: right'  control-label) Rating
+				div.col-sm-10
+					label.radio-inline
+						input.lodging_rating(type='radio' name='lodging_rating' value=1 required) 
+						p 1
+					label.radio-inline
+						input.lodging_rating(type='radio' name='lodging_rating' value=2) 
+						p 2
+					label.radio-inline
+						input.lodging_rating(type='radio' name='lodging_rating' value=3) 
+						p 3 
+					label.radio-inline
+						input.lodging_rating(type='radio' name='lodging_rating' value=4) 
+						p 4 
+					label.radio-inline
+						input.lodging_rating(type='radio' name='lodging_rating' value=5) 
+						p 5
+			div.form-group
+				label.col-sm-2(for='lodging_feedback' style='text-align: right'  control-label) Comments, suggestions, or feedback
+				div.col-sm-10
+					textarea#lodging_feedback.form-control(name='lodging_feedback' rows=12 placeholder='Would you recommend this place? What did you like/dislike about it? etc.')
+			hr
+
+		h3 Sites and Attractions
+
+		div#site0
+
+			div.form-group
+				label.col-sm-2(for='site_name' style='text-align: right' control-label) Name
+				div.col-sm-10
+					input#site_name.form-control(type='text' name='site_name[]' placeholder='Eiffel Tower')
+			div.form-group
+				label.col-sm-2(for='site_rating' style='text-align: right' control-label) Rating
+				div.col-sm-10
+					label.radio-inline 
+						input.site_rating(type='radio' name='site_rating[0]' value=1 required) 
+						p 1
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[0]' value=2) 
+						p 2 
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[0]' value=3) 
+						p 3
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[0]' value=4) 
+						p 4
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[0]' value=5) 
+						p 5
+			div.form-group
+				label.col-sm-2(for='site_time' style='text-align: right' control-label) Time
+				div.col-sm-4
+					select#site_time.form-control(type='select' name='site_time[]')
+						option(value='')
+						option(value='Morning') Morning
+						option(value='Afternoon') Afternoon
+						option(value='Evening') Evening
+						option(value='Night') Night
+				label.col-sm-2(for='site_time_spent' style='text-align: right' control-label) Time spent
+				div.col-sm-4
+					div.input-group
+						input#site_time_spent.form-control(type='number' name='site_time_spent[]' placeholder=0)
+						div.input-group-addon(style='background-color:#FFF') hrs
+			div.form-group
+				label.col-sm-2(for='site_comments' style='text-align: right' control-label) Comments, suggestions, or feedback
+				div.col-sm-10
+					textarea#site_comments.form-control(name='site_comments[]' rows=12 placeholder='Would you recommend this place? How crowded was it when you visited? Best way to get there? Special rules to look out for? etc.')
+
+		div#copy.hide
+
+			div.form-group
+				label.col-sm-2(for='site_name' style='text-align: right' control-label) Name
+				div.col-sm-10
+					input#site_name.form-control(type='text' name='site_name[]' placeholder='Eiffel Tower')
+			div.form-group
+				label.col-sm-2(for='site_rating' style='text-align: right' control-label) Rating
+				div.col-sm-10
+					label.radio-inline 
+						input.site_rating(type='radio' name='site_rating[]' value='1' required) 
+						p 1
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[]' value='2') 
+						p 2 
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[]' value='3') 
+						p 3
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[]' value='4') 
+						p 4
+					label.radio-inline
+						input.site_rating(type='radio' name='site_rating[]' value=5) 
+						p 5
+			div.form-group
+				label.col-sm-2(for='site_time' style='text-align: right' control-label) Time
+				div.col-sm-4
+					select#site_time.form-control(type='select' name='site_time[]')
+						option(value='')
+						option(value='Morning') Morning
+						option(value='Afternoon') Afternoon
+						option(value='Evening') Evening
+						option(value='Night') Night
+				label.col-sm-2(for='site_time_spent' style='text-align: right' control-label) Time spent
+				div.col-sm-4
+					div.input-group
+						input#site_time_spent.form-control(type='number' name='site_time_spent[]' placeholder=0)
+						div.input-group-addon(style='background-color:#FFF') hrs
+			div.form-group
+				label.col-sm-2(for='site_comments' style='text-align: right' control-label) Comments, suggestions, or feedback
+				div.col-sm-10
+					textarea#site_comments.form-control(name='site_comments[]' rows=12 placeholder='Would you recommend this place? How crowded was it when you visited? Best way to get there? Special rules to look out for? etc.')
+
+			hr
+		
+		button.btn.btn-primary.pull-right(type="button" onClick="addSite()") Add another site
+
+
+		button.btn.btn-primary(type='submit') Submit
+
+		p(style='padding:20px')
+
+	if errors
+		ul
+			for error in errors
+				li!= error.msg
+
+	script
+		include ../public/javascripts/addSite.js
+
+
+
+
+
+
+
+

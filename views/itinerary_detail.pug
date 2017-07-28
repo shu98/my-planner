@@ -1,0 +1,91 @@
+extends layout
+
+block content
+	h1 #{title}: #{itinerary.destination}
+
+	div 
+		h3 Basic Info
+
+		p #[strong Origin city:] #{itinerary.destination}
+		p #[strong Arrived:] #{itinerary.arrived_formatted}, #{itinerary.time_arrive}
+		p #[strong Depart: ] #{itinerary.depart_formatted}, #{itinerary.time_depart}
+		p #[strong Budget (approx): ] #{itinerary.budget}
+		p #[strong This itinerary is suggested for: ] #{itinerary.age_group}
+
+
+	div
+		h3 Lodging
+
+		p #[strong Type of accommodation: ] #{itinerary.lodging.type}
+		p #[strong Name: ] #{itinerary.lodging.name}
+		p #[strong Price: ] #{itinerary.lodging.price}
+		p #[strong Rating: ] #{itinerary.lodging.rating}
+		p #[strong Additional comments about this place: ] #{itinerary.lodging.comments}
+
+
+	div
+		h3 Sites
+
+		each site in itinerary.sites
+			hr
+			p #[strong Name: ] #{site.name}
+			p #[strong Rating: ] #{site.rating}
+			p #[strong Time visited: ] #{site.time}
+			p #[strong Time spent (approx): ] #{site.time_spent}
+			p #[strong Additional comments about this place: ] #{site.comments}
+
+	hr 
+
+	div
+
+		h3 Submit a Review
+	
+		form.form-horizontal.container(method='POST' action='')
+
+			div.form-group
+				label.col-sm-2(for='author' style='text-align: right' control-label) Name
+				div.col-sm-10
+					input#author.form-control(type='text' placeholder='Enter your name' name='author' required='true')
+
+			div.form-group
+				label.col-sm-2(for='rating' style='text-align: right'  control-label) Rating
+				div.col-sm-10
+					label.radio-inline
+						input.rating(type='radio' name='rating' value=1) 
+						p 1
+					label.radio-inline
+						input.rating(type='radio' name='rating' value=2) 
+						p 2
+					label.radio-inline
+						input.rating(type='radio' name='rating' value=3) 
+						p 3 
+					label.radio-inline
+						input.rating(type='radio' name='rating' value=4) 
+						p 4 
+					label.radio-inline
+						input.rating(type='radio' name='rating' value=5) 
+						p 5
+
+			div.form-group
+				label.col-sm-2(for='feedback' style='text-align: right'  control-label) Comments on this itinerary
+				div.col-sm-10
+					textarea#feedback.form-control(name='feedback' rows=6 placeholder='How did this itinerary work out for you? Any modifcations that you made that you thought worked well? etc.' required='true')
+
+			button.btn.btn-primary(type='submit') Submit 
+
+
+	div 
+		h3 Reviews of This Itinerary
+
+		each review in itinerary.reviews
+			div
+				p #[strong Rating: ] #{review.rating}
+				p #[strong Comment: ] #{review.feedback}
+				p #[em Submitted by ] #{review.author} #[em on #{review.date_formatted}]
+
+
+
+
+
+
+	

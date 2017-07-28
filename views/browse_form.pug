@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	h1= title
+
+	form.form-horizontal.container(method='POST' action='')
+
+		h3 Where would you like to go?
+
+		div.form-group
+			input#destination.form-control(type='text' placeholder='Enter destination city' name='destination' required='true')
+
+		h3 What is your spending range?
+
+		div.form-group
+			div.col-sm-3
+				input#min_budget.form-control(type='text' placeholder='Enter minimum budget' name='min_budget' required='true')
+			p -
+			div.col-sm-3
+				input#max_budget.form-control(type='text' placeholder='Enter destination city' name='destination' required='true')

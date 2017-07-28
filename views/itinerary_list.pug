@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1=title
+
+	ul
+	each itinerary in itinerary_list
+		li
+			a(href=itinerary.url) #{itinerary.destination} 
+			| from #{itinerary.from} for $#{itinerary.budget}
+	else
+		li There are no itineraries yet. Be the first to make one!
