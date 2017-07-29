@@ -8,7 +8,7 @@ var ReviewSchema = Schema(
     author: {type: String},
     rating: {type: Number, min: 1, max: 5},
     feedback: {type: String, required: true},
-    date: {type: String}
+    date: {type: Date}
   }
 );
 

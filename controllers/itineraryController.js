@@ -28,12 +28,61 @@ exports.index_post = function(req, res) {
 
 exports.itinerary_list = function(req, res, next) {
     
-    Itinerary.find({}, 'destination from budget')
+    Itinerary.find({}, 'destination from budget date_added')
         .populate('destination')
         .exec(function(err, list_itineraries) {
             if(err) {return next(err);}
             res.render('itinerary_list', {title: 'Itineraries', itinerary_list: list_itineraries});
         });
+};
+
+exports.itinerary_list_sort = function(req, res, next) {
+    
+    if (req.body.sortby === 'budgetlow') {
+        Itinerary.find({}, 'destination from budget date_added')
+            .populate('destination')
+            .sort([['budget', 'ascending']])
+            .exec(function(err, list_itineraries) {
+                if(err) {return next(err);}
+                res.render('itinerary_list', {title: 'Itineraries', itinerary_list: list_itineraries});
+            });
+    }
+    else if (req.body.sortby === 'budgethigh') {
+        Itinerary.find({}, 'destination from budget date_added')
+            .populate('destination')
+            .sort([['budget', 'descending']])
+            .exec(function(err, list_itineraries) {
+                if(err) {return next(err);}
+                res.render('itinerary_list', {title: 'Itineraries', itinerary_list: list_itineraries});
+            });
+    }
+    else if (req.body.sortby === 'datefirst') {
+        Itinerary.find({}, 'destination from budget date_added')
+            .populate('destination')
+            .sort([['date_added', 'descending']])
+            .exec(function(err, list_itineraries) {
+                if(err) {return next(err);}
+                res.render('itinerary_list', {title: 'Itineraries', itinerary_list: list_itineraries});
+            });
+    }
+    else if (req.body.sortby === 'datelast') {
+        Itinerary.find({}, 'destination from budget date_added')
+            .populate('destination')
+            .sort([['budget', 'ascending']])
+            .exec(function(err, list_itineraries) {
+                if(err) {return next(err);}
+                res.render('itinerary_list', {title: 'Itineraries', itinerary_list: list_itineraries});
+            });
+    }
+    else {
+        Itinerary.find({}, 'destination from budget date_added')
+            .populate('destination')
+            .exec(function(err, list_itineraries) {
+                if(err) {return next(err);}
+                res.render('itinerary_list', {title: 'Itineraries', itinerary_list: list_itineraries});
+            });
+    }
+    
 };
 
 exports.itinerary_detail = function(req, res, next) {
@@ -86,7 +135,7 @@ exports.city_detail = function(req, res, next) {
         },
 
         city_itineraries: function(callback) {
-            Itinerary.find({'destination': req.params.id}, 'destination from budget')
+            Itinerary.find({'destination': req.params.id}, 'destination from budget date_added')
                 .populate('destination')
                 .exec(callback);
         }
@@ -96,6 +145,98 @@ exports.city_detail = function(req, res, next) {
     });
 
 };
+
+exports.city_detail_sort = function(req, res, next) {
+    if (req.body.sortby === 'budgetlow') {
+        async.parallel({
+            city: function(callback) {
+                City.findById(req.params.id)
+                    .exec(callback);
+            },
+
+            city_itineraries: function(callback) {
+                Itinerary.find({'destination': req.params.id}, 'destination from budget date_added')
+                    .populate('destination')
+                    .sort([['budget', 'ascending']])
+                    .exec(callback);
+            }
+        }, function(err, results) {
+            if(err) {return next(err);}
+            res.render('city_detail', {city: results.city, city_itineraries: results.city_itineraries});
+        });
+    }
+    else if (req.body.sortby === 'budgethigh') {
+        async.parallel({
+            city: function(callback) {
+                City.findById(req.params.id)
+                    .exec(callback);
+            },
+
+            city_itineraries: function(callback) {
+                Itinerary.find({'destination': req.params.id}, 'destination from budget date_added')
+                    .populate('destination')
+                    .sort([['budget', 'descending']])
+                    .exec(callback);
+            }
+        }, function(err, results) {
+            if(err) {return next(err);}
+            res.render('city_detail', {city: results.city, city_itineraries: results.city_itineraries});
+        });
+    }
+    else if (req.body.sortby === 'datefirst') {
+        async.parallel({
+            city: function(callback) {
+                City.findById(req.params.id)
+                    .exec(callback);
+            },
+
+            city_itineraries: function(callback) {
+                Itinerary.find({'destination': req.params.id}, 'destination from budget date_added')
+                    .populate('destination')
+                    .sort([['date_added', 'descending']])
+                    .exec(callback);
+            }
+        }, function(err, results) {
+            if(err) {return next(err);}
+            res.render('city_detail', {city: results.city, city_itineraries: results.city_itineraries});
+        });
+    }
+    else if (req.body.sortby === 'datelast') {
+        async.parallel({
+            city: function(callback) {
+                City.findById(req.params.id)
+                    .exec(callback);
+            },
+
+            city_itineraries: function(callback) {
+                Itinerary.find({'destination': req.params.id}, 'destination from budget date_added')
+                    .populate('destination')
+                    .sort([['date_added', 'ascending']])
+                    .exec(callback);
+            }
+        }, function(err, results) {
+            if(err) {return next(err);}
+            res.render('city_detail', {city: results.city, city_itineraries: results.city_itineraries});
+        });
+    }
+    else {
+        async.parallel({
+            city: function(callback) {
+                City.findById(req.params.id)
+                    .exec(callback);
+            },
+
+            city_itineraries: function(callback) {
+                Itinerary.find({'destination': req.params.id}, 'destination from budget date_added')
+                    .populate('destination')
+                    .exec(callback);
+            }
+        }, function(err, results) {
+            if(err) {return next(err);}
+            res.render('city_detail', {city: results.city, city_itineraries: results.city_itineraries});
+        });
+    }
+}
 
 
 exports.itinerary_detail_comment = function(req, res, next) {
@@ -249,6 +390,8 @@ exports.itinerary_add_post = function(req, res) {
                     time_depart: req.body.time_depart,
                     lodging: lodge,
                     sites: sites,
+                    reviews: [],
+                    date_added: new Date().toISOString()
 
                 });
 
@@ -275,6 +418,8 @@ exports.itinerary_add_post = function(req, res) {
                     time_depart: req.body.time_depart,
                     lodging: lodge,
                     sites: sites,
+                    reviews: [],
+                    date_added: new Date().toISOString()
                 });
 
                 itinerary.save(function(err, next) {

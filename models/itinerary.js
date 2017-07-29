@@ -16,8 +16,8 @@ var ItinerarySchema = Schema(
     time_depart: {type: String},
     lodging: {type: Schema.ObjectId, ref: 'Lodging'},
     sites: [{type: Schema.ObjectId, ref: 'Site'}],
-    reviews: [{type: Schema.ObjectId, ref: 'Review'}]
-
+    reviews: [{type: Schema.ObjectId, ref: 'Review'}],
+    date_added: {type: Date}
   }
 );
 
@@ -38,7 +38,13 @@ ItinerarySchema
 .virtual('depart_formatted')
 .get(function() {
     return this.depart ? moment(this.depart).format('MMMM Do, YYYY') : '';
-})
+});
+
+ItinerarySchema
+.virtual('date_added_formatted')
+.get(function() {
+    return this.date_added ? moment(this.date_added).format('MM/DD/YYYY') : '';
+});
 
 //Export model
 module.exports = mongoose.model('Itinerary', ItinerarySchema);

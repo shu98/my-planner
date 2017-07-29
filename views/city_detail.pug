@@ -2,14 +2,26 @@ extends layout
 
 block content
 
-  h1 #{city.name_formatted}
-  
-  div(style='margin-left:20px;margin-top:20px')
-    
-    ul
-    each itinerary in city_itineraries
-      li
-        a(href=itinerary.url) #{itinerary.destination.name_formatted} 
-        | from #{itinerary.from} for $#{itinerary.budget}
-    else
-      li There are no itineraries yet. Be the first to make one!
+	h1 #{city.name_formatted}
+
+	div(style='margin-left:20px;margin-top:20px')
+
+	form.form-horizontal.container(method='POST' action='')
+		label.col-sm-1(for='sortby' style='text-align: right' control-label) Sort by
+		div.col-sm-4
+			select#sortby.form-control(type='select' name='sortby')
+				option(value='')
+				option(value='budgetlow') Budget - low to high
+				option(value='budgethigh') Budget - high to low
+				option(value='datefirst') Date added (newest)
+				option(value='datelast') Date added (oldest)
+
+		button.btn.btn-primary(type='submit') Go
+	
+	ul
+	each itinerary in city_itineraries
+		li
+			a(href=itinerary.url) #{itinerary.destination.name_formatted} 
+			| from #{itinerary.from} for $#{itinerary.budget} (Added #{itinerary.date_added_formatted})
+	else
+		li There are no itineraries yet. Be the first to make one!

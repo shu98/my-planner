@@ -17,6 +17,8 @@ router.post('/itineraries/:id/delete', itinerary_controller.itinerary_delete_pos
 
 router.get('/itineraries', itinerary_controller.itinerary_list);
 
+router.post('/itineraries', itinerary_controller.itinerary_list_sort);
+
 router.get('/itineraries/:id', itinerary_controller.itinerary_detail);
 
 router.post('/itineraries/:id', itinerary_controller.itinerary_detail_comment);
@@ -26,6 +28,8 @@ router.get('/cities', itinerary_controller.city_list);
 router.post('/cities', itinerary_controller.city_list_search);
 
 router.get('/cities/:id', itinerary_controller.city_detail);
+
+router.post('/cities/:id', itinerary_controller.city_detail_sort);
 
 router.get('/find', itinerary_controller.find_get);
 

@@ -98,12 +98,13 @@ function itineraryCreate(dest, from, by, budget, age, arrived, time_arrived, dep
     budget: budget, 
     age_group: age,
     arrived: arrived,
-    time_arrived: time_arrived, 
+    time_arrive: time_arrived, 
     depart: depart,
     time_depart: time_depart,
     lodging: lodge, 
     sites: sites_list,
-    reviews: reviews
+    reviews: reviews,
+    date_added: new Date().toISOString()
   };
 
   var itinerary = new Itinerary(itinerarydetail);
