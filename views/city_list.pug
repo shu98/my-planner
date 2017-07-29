@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	h1=title
+
+	ul
+	each city in city_list
+		li
+			a(href=city.url) #{city.name} 
+	else
+		li There are no itineraries for this city yet. Be the first to make one!

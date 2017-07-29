@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var ItinerarySchema = Schema(
   {
-    destination: {type: String, required: true},
+    destination: {type: Schema.ObjectId, ref: 'City', required: true},
     from: {type: String},
     by: {type: String},
     budget: {type: Number, min: 0, max: 1000000000},
@@ -30,13 +30,14 @@ ItinerarySchema
 ItinerarySchema
 .virtual('arrived_formatted')
 .get(function() {
-    return moment(this.arrived).format('MMMM Do, YYYY');
+    return this.arrived ? moment(this.arrived).format('MMMM Do, YYYY') : '';
 });
+
 
 ItinerarySchema
 .virtual('depart_formatted')
 .get(function() {
-    return moment(this.depart).format('MMMM Do, YYYY');
+    return this.depart ? moment(this.depart).format('MMMM Do, YYYY') : '';
 })
 
 //Export model

@@ -1,12 +1,12 @@
 extends layout
 
 block content
-	h1 #{title}: #{itinerary.destination}
+	h1 #{title}: #{itinerary.destination.name}
 
 	div 
 		h3 Basic Info
 
-		p #[strong Origin city:] #{itinerary.destination}
+		p #[strong Origin city:] #{itinerary.from}
 		p #[strong Arrived:] #{itinerary.arrived_formatted}, #{itinerary.time_arrive}
 		p #[strong Depart: ] #{itinerary.depart_formatted}, #{itinerary.time_depart}
 		p #[strong Budget (approx): ] #{itinerary.budget}

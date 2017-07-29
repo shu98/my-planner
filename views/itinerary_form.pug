@@ -62,6 +62,25 @@ block content
 						option(value='Afternoon') Afternoon
 						option(value='Evening') Evening
 						option(value='Night') Night
+
+			div.form-group 
+				label.col-sm-2(for='age_group' style='text-align: right' control-label) Recommended audience
+				div.col-sm-10
+					label.checkbox-inline
+						input.checkbox-input(type='checkbox', name='age_group' value='Everyone')
+						p Everyone
+					label.checkbox-inline
+						input.checkbox-input(type='checkbox', name='age_group' value='Young adults')
+						p Young adults
+					label.checkbox-inline
+						input.checkbox-input(type='checkbox', name='age_group' value='Families')
+						p Families
+					label.checkbox-inline
+						input.checkbox-input(type='checkbox', name='age_group' value='Couples')
+						p Couples
+					label.checkbox-inline
+						input.checkbox-input(type='checkbox', name='age_group' value='Seniors')
+						p Seniors
 			hr
 
 		h3 Lodging
@@ -86,7 +105,7 @@ block content
 				label.col-sm-2(for='lodging_rating' style='text-align: right'  control-label) Rating
 				div.col-sm-10
 					label.radio-inline
-						input.lodging_rating(type='radio' name='lodging_rating' value=1 required) 
+						input.lodging_rating(type='radio' name='lodging_rating' value=1 required='True') 
 						p 1
 					label.radio-inline
 						input.lodging_rating(type='radio' name='lodging_rating' value=2) 
@@ -106,7 +125,7 @@ block content
 					textarea#lodging_feedback.form-control(name='lodging_feedback' rows=12 placeholder='Would you recommend this place? What did you like/dislike about it? etc.')
 			hr
 
-		h3 Sites and Attractions
+		h3 Sites, Attractions, and Activities
 
 		div#site0
 
@@ -118,7 +137,7 @@ block content
 				label.col-sm-2(for='site_rating' style='text-align: right' control-label) Rating
 				div.col-sm-10
 					label.radio-inline 
-						input.site_rating(type='radio' name='site_rating[0]' value=1 required) 
+						input.site_rating(type='radio' name='site_rating[0]' value=1 required='True') 
 						p 1
 					label.radio-inline
 						input.site_rating(type='radio' name='site_rating[0]' value=2) 
@@ -161,7 +180,7 @@ block content
 				label.col-sm-2(for='site_rating' style='text-align: right' control-label) Rating
 				div.col-sm-10
 					label.radio-inline 
-						input.site_rating(type='radio' name='site_rating[]' value='1' required) 
+						input.site_rating(type='radio' name='site_rating[]' value='1' required='True') 
 						p 1
 					label.radio-inline
 						input.site_rating(type='radio' name='site_rating[]' value='2') 

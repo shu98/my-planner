@@ -9,10 +9,11 @@ if (!userArgs[0].startsWith('mongodb://')) {
     return
 }
 
-var async = require('async')
-var Lodging = require('./models/lodging')
-var Site = require('./models/site')
-var Itinerary = require('./models/itinerary')
+var async = require('async');
+var Lodging = require('./models/lodging');
+var City = require('./models/city');
+var Site = require('./models/site');
+var Itinerary = require('./models/itinerary');
 
 
 var mongoose = require('mongoose');
@@ -24,6 +25,26 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 var itineraries = [];
 var sites = [];
 var lodging = [];
+var cities = [];
+
+function cityCreate(name, cb) {
+  citydetail = {
+    name: name
+  };
+
+  var city = new City(citydetail);
+
+  city.save(function(err) {
+    if(err) {
+      cb(err, null)
+      return
+    }
+    console.log('New City: ' + city);
+    cities.push(city);
+    cb(null, city)
+
+  });
+}
 
 function lodgingCreate(type, name, price, rating, comments, cb) {
   lodgingdetail = {
@@ -42,9 +63,9 @@ function lodgingCreate(type, name, price, rating, comments, cb) {
       return
     }
     console.log('New Lodging: ' + lodging);
-    lodging.push(lodge)
+    lodging.push(lodge);
     cb(null, lodge)
-  }  );
+  });
 }
 
 function siteCreate(name, rating, time, time_spent, comments, cb) {
@@ -64,7 +85,7 @@ function siteCreate(name, rating, time, time_spent, comments, cb) {
       return
     }
     console.log('New Site: ' + site);
-    sites.push(site)
+    sites.push(site);
     cb(null, site)
   }  );
 }
@@ -93,8 +114,8 @@ function itineraryCreate(dest, from, by, budget, age, arrived, time_arrived, dep
       return;
     }
     console.log('New Itinerary: ' + itinerary);
-    itineraries.push(itinerary)
-    cb(null, itinerary);
+    itineraries.push(itinerary);
+    cb(null, itinerary)
   }   );
 }
 
@@ -115,6 +136,20 @@ function createLodging(cb) {
         cb);
 }
 
+function createCity(cb) {
+  async.series([
+        function(callback) {
+          cityCreate('Tel Aviv', callback);
+        },
+        function(callback) {
+          cityCreate('Jerusalem', callback);
+        },
+        function(callback) {
+          cityCreate('Haifa', callback);
+        }
+        ],
+        cb);
+}
 
 function createSite(cb) {
     async.series([
@@ -154,13 +189,13 @@ function createSite(cb) {
 function createItinerary(cb) {
     async.series([
         function(callback) {
-          itineraryCreate('Tel Aviv', 'San Diego', 'Airplane', 500, 'Everyone', '2017-05-31', 'Night', '2017-06-04', 'Morning', lodging[0], [sites[0], sites[1]], [], callback);
+          itineraryCreate(cities[0], 'San Diego', 'Airplane', 500, 'Everyone', '2017-05-31', 'Night', '2017-06-04', 'Morning', lodging[0], [sites[0], sites[1]], [], callback);
         },
         function(callback) {
-          itineraryCreate('Haifa', 'Beer Sheva', 'Train', 200, 'Young Adults', '2017-07-20', 'Evening', '2017-07-22', 'Evening', lodging[1], [sites[2], sites[3]],[],callback);
+          itineraryCreate(cities[2], 'Beer Sheva', 'Train', 200, 'Young Adults', '2017-07-20', 'Evening', '2017-07-22', 'Evening', lodging[1], [sites[2], sites[3]],[],callback);
         },
         function(callback) {
-          itineraryCreate('Jerusalem', 'Tel Aviv', 'Train', 200, 'Families', '2017-07-27', 'Evening', '2017-07-30', 'Morning', lodging[2], [sites[4], sites[5], sites[6], sites[7], sites[8]], [], callback);
+          itineraryCreate(cities[1], 'Tel Aviv', 'Train', 200, 'Families', '2017-07-27', 'Evening', '2017-07-30', 'Morning', lodging[2], [sites[4], sites[5], sites[6], sites[7], sites[8]], [], callback);
         }
         ],
         // optional callback
@@ -169,6 +204,7 @@ function createItinerary(cb) {
 
 
 async.series([
+    createCity,
     createSite,
     createLodging,
     createItinerary
