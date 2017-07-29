@@ -2,14 +2,14 @@ extends layout
 
 block content
 
-  h1 #{city.name}
+  h1 #{city.name_formatted}
   
   div(style='margin-left:20px;margin-top:20px')
     
     ul
     each itinerary in city_itineraries
       li
-        a(href=itinerary.url) #{itinerary.destination.name} 
+        a(href=itinerary.url) #{itinerary.destination.name_formatted} 
         | from #{itinerary.from} for $#{itinerary.budget}
     else
       li There are no itineraries yet. Be the first to make one!

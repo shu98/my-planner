@@ -14,7 +14,9 @@ exports.index_post = function(req, res) {
     req.sanitize('destination').escape();
     req.sanitize('destination').trim();
 
-    City.findOne({'name': req.body.destination})
+    var filter = req.body.destination.toLowerCase();
+
+    City.findOne({'name': filter})
         .exec(function(err, found_city) {
             if(err) {return next(err);}
             if(found_city) {
@@ -57,6 +59,24 @@ exports.city_list = function(req, res, next) {
         });
     
 };
+
+exports.city_list_search = function(req, res, next) {
+    req.checkBody('destination', 'Please enter a destination city').notEmpty();
+    req.sanitize('destination').escape();
+    req.sanitize('destination').trim();
+
+    var filter = req.body.destination.toLowerCase();
+
+    City.findOne({'name': filter})
+        .exec(function(err, found_city) {
+            if(err) {return next(err);}
+            if(found_city) {
+                res.redirect(found_city.url);
+            }
+        })
+    
+};
+
 
 exports.city_detail = function(req, res, next) {
     async.parallel({
@@ -188,14 +208,14 @@ exports.itinerary_add_post = function(req, res) {
 
     lodge.save();
 
-    site_name = req.body.site_name.split(",");
+    var site_name = req.body.site_name.split(",");
     site_name.splice(1, 1);
-    site_rating = req.body.site_rating.split(",");
-    site_time = req.body.site_time.split(",");
+    var site_rating = req.body.site_rating.split(",");
+    var site_time = req.body.site_time.split(",");
     site_time.splice(1, 1);
-    site_time_spent = req.body.site_time_spent.split(",");
+    var site_time_spent = req.body.site_time_spent.split(",");
     site_time_spent.splice(1, 1);
-    site_comments = req.body.site_comments.split(",");
+    var site_comments = req.body.site_comments.split(",");
     site_comments.splice(1, 1);
 
     var sites = [];
@@ -212,7 +232,7 @@ exports.itinerary_add_post = function(req, res) {
         site.save();
     }
 
-    City.findOne({'name': req.body.destination})
+    City.findOne({'name': req.body.destination.toLowerCase()})
         .exec(function(err, found_city) {
             if (err) {return next(err);}
 
@@ -241,7 +261,7 @@ exports.itinerary_add_post = function(req, res) {
             }
 
             else {
-                var city = new City({name: req.body.destination});
+                var city = new City({name: req.body.destination.toLowerCase});
                 city.save();
                 var itinerary = new Itinerary({
                     destination: found_city,
@@ -266,20 +286,12 @@ exports.itinerary_add_post = function(req, res) {
         });
 };
 
-exports.browse_by_get = function(req, res) {
-    res.render('browse', {title: 'Browse Itineraries'});
-};
-
-exports.browse_by_post = function(req, res) {
+exports.find_get = function(req, res) {
     res.send('NOT IMPLEMENTED: Browse Page');
 };
 
-exports.refined_search = function(req, res) {
-	res.send('NOT IMPLEMENTED: Refined search page')
-};
-
-exports.results_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Results page GET');
+exports.find_post = function(req, res) {
+    res.send('NOT IMPLEMENTED: Browse Page');
 };
 
 exports.itinerary_update_get = function(req, res) {

@@ -23,6 +23,12 @@ router.post('/itineraries/:id', itinerary_controller.itinerary_detail_comment);
 
 router.get('/cities', itinerary_controller.city_list);
 
+router.post('/cities', itinerary_controller.city_list_search);
+
 router.get('/cities/:id', itinerary_controller.city_detail);
+
+router.get('/find', itinerary_controller.find_get);
+
+router.post('/find', itinerary_controller.find_post);
 
 module.exports = router;

@@ -16,7 +16,6 @@ var expressValidator = require('express-validator');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var database = require('./routes/database');  
-var browse = require('./routes/browse');
 
 var app = express();
 
@@ -36,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/database', database);
-app.use('/browse', browse);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -139,13 +139,13 @@ function createLodging(cb) {
 function createCity(cb) {
   async.series([
         function(callback) {
-          cityCreate('Tel Aviv', callback);
+          cityCreate('tel aviv', callback);
         },
         function(callback) {
-          cityCreate('Jerusalem', callback);
+          cityCreate('jerusalem', callback);
         },
         function(callback) {
-          cityCreate('Haifa', callback);
+          cityCreate('haifa', callback);
         }
         ],
         cb);

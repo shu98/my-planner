@@ -6,7 +6,7 @@ block content
 	ul
 	each itinerary in itinerary_list
 		li
-			a(href=itinerary.url) #{itinerary.destination.name} 
+			a(href=itinerary.url) #{itinerary.destination.name_formatted} 
 			| from #{itinerary.from} for $#{itinerary.budget}
 	else
 		li There are no itineraries yet. Be the first to make one!

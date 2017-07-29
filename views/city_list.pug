@@ -3,9 +3,18 @@ extends layout
 block content
 	h1=title
 
+	div(style='margin-left:20px;margin-top:20px')
+
+	form.form-horizontal.container(method='POST' action='')
+
+		div.form-group
+			div.col-sm-10
+				input#destination.form-control(type='text' placeholder='Search cities' name='destination' required='true')
+			button.btn.btn-primary(type='submit') Go
+
 	ul
 	each city in city_list
 		li
-			a(href=city.url) #{city.name} 
+			a(href=city.url) #{city.name_formatted} 
 	else
 		li There are no itineraries for this city yet. Be the first to make one!
