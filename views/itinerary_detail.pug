@@ -12,6 +12,7 @@ block content
 		p #[strong Depart: ] #{itinerary.depart_formatted}, #{itinerary.time_depart}
 		p #[strong Budget (approx): ] #{itinerary.budget}
 		p #[strong This itinerary is suggested for: ] #{itinerary.age_group}
+		p #[strong Traveler's comments about this itinerary: ] #{itinerary.logistics}
 
 
 	div
@@ -33,7 +34,7 @@ block content
 			p #[strong Rating: ] #{site.rating}
 			p #[strong Time visited: ] #{site.time}
 			p #[strong Time spent (approx): ] #{site.time_spent}
-			p #[strong Additional comments about this place: ] #{site.comments}
+			p #[strong Additional comments about this site or activity: ] #{site.comments}
 
 	hr 
 

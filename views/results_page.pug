@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+	h1=title
+
+	p(style='padding:20px')
+
+	ul
+	each itinerary in itineraries
+		li
+			a(href=itinerary.url) #{itinerary.destination.name_formatted} 
+			| from #{itinerary.from} for $#{itinerary.budget} (Added #{itinerary.date_added_formatted})
+	else
+		li There are no itineraries with these specifications. Be the first to make one!

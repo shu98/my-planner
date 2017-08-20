@@ -35,4 +35,6 @@ router.get('/find', itinerary_controller.find_get);
 
 router.post('/find', itinerary_controller.find_post);
 
+router.get('/results', itinerary_controller.search_results);
+
 module.exports = router;

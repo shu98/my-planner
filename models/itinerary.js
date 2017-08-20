@@ -14,6 +14,7 @@ var ItinerarySchema = Schema(
     time_arrive: {type: String},
     depart: {type: Date},
     time_depart: {type: String},
+    logistics: {type: String},
     lodging: {type: Schema.ObjectId, ref: 'Lodging'},
     sites: [{type: Schema.ObjectId, ref: 'Site'}],
     reviews: [{type: Schema.ObjectId, ref: 'Review'}],

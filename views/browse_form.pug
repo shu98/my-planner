@@ -3,18 +3,41 @@ extends layout
 block content
 	h1= title
 
+	p(style='padding:20px')
+
 	form.form-horizontal.container(method='POST' action='')
 
-		h3 Where would you like to go?
+		div.form-group
+			label.col-sm-2(for='destination' style='text-align: right' control-label) Destination
+			div.col-sm-10
+				input#destination.form-control(type='text' placeholder='Enter destination city' name='destination')
 
 		div.form-group
-			input#destination.form-control(type='text' placeholder='Enter destination city' name='destination' required='true')
+			label.col-sm-2(for='budget' style='text-align: right' control-label) Budget
+			div.col-sm-10
+				div.input-group
+					span.input-group-addon(style='background-color:#FFF') $
+					input#budget.form-control(type='number' name='budget' placeholder='Enter maximum price of desired trip')
 
-		h3 What is your spending range?
+		div.form-group 
+			label.col-sm-2(for='age_group' style='text-align: right' control-label) For
+			div.col-sm-10
+				label.checkbox-inline
+					input.checkbox-input(type='checkbox', name='age_group' value='Everyone')
+					p Everyone
+				label.checkbox-inline
+					input.checkbox-input(type='checkbox', name='age_group' value='Young adults')
+					p Young adults
+				label.checkbox-inline
+					input.checkbox-input(type='checkbox', name='age_group' value='Families')
+					p Families
+				label.checkbox-inline
+					input.checkbox-input(type='checkbox', name='age_group' value='Couples')
+					p Couples
+				label.checkbox-inline
+					input.checkbox-input(type='checkbox', name='age_group' value='Seniors')
+					p Seniors
 
-		div.form-group
-			div.col-sm-3
-				input#min_budget.form-control(type='text' placeholder='Enter minimum budget' name='min_budget' required='true')
-			p -
-			div.col-sm-3
-				input#max_budget.form-control(type='text' placeholder='Enter destination city' name='destination' required='true')
+		p(style='padding:20px')
+
+		button.btn.btn-primary(type='submit') Submit

@@ -1,4 +1,4 @@
-var i = 0;
+var i = 1;
 var original = document.getElementById('copy');
 
 function addSite(){

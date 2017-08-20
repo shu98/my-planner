@@ -292,6 +292,7 @@ exports.itinerary_add_post = function(req, res) {
     req.checkBody('time_arrive').optional({checkFalsy: true});
     req.checkBody('depart').optional({checkFalsy: true}).isDate();
     req.checkBody('time_depart').optional({checkFalsy: true});
+    req.checkBody('logistics').optional({checkFalsy: true});
     req.checkBody('age_group').optional({checkFalsy: true});
     req.checkBody('lodging_type').optional({checkFalsy: true});
     req.checkBody('lodging_name').optional({checkFalsy: true});
@@ -318,6 +319,8 @@ exports.itinerary_add_post = function(req, res) {
     req.sanitize('depart').toDate();
     req.sanitize('time_depart').escape();
     req.sanitize('time_depart').trim();
+    req.sanitize('logistics').escape();
+    req.sanitize('logistics').trim();
     req.sanitize('lodging_type').escape();
     req.sanitize('lodging_type').trim();
     req.sanitize('lodging_name').escape();
@@ -328,16 +331,8 @@ exports.itinerary_add_post = function(req, res) {
     req.sanitize('lodging_rating').trim();
     req.sanitize('lodging_comments').escape();
     req.sanitize('lodging_comments').trim();
-    req.sanitize('site_name').escape();
-    req.sanitize('site_name').trim();
-    req.sanitize('site_rating').escape();
-    req.sanitize('site_rating').trim();
-    req.sanitize('site_time').escape();
-    req.sanitize('site_time').trim();
-    req.sanitize('site_time_spent').escape();
-    req.sanitize('site_time_spent').trim();
-    req.sanitize('site_comments').escape();
-    req.sanitize('site_comments').trim();
+
+    console.log(req.body);
 
     var lodge = new Lodging({
         type: req.body.lodging_type,
@@ -349,24 +344,14 @@ exports.itinerary_add_post = function(req, res) {
 
     lodge.save();
 
-    var site_name = req.body.site_name.split(",");
-    site_name.splice(1, 1);
-    var site_rating = req.body.site_rating.split(",");
-    var site_time = req.body.site_time.split(",");
-    site_time.splice(1, 1);
-    var site_time_spent = req.body.site_time_spent.split(",");
-    site_time_spent.splice(1, 1);
-    var site_comments = req.body.site_comments.split(",");
-    site_comments.splice(1, 1);
-
     var sites = [];
-    for (i = 0; i < site_name.length; i++) {
+    for (i = 0; i < req.body.site_name.length-1; i++) {
         var site = new Site({
-            name: site_name[i],
-            rating: site_rating[i],
-            time: site_time[i],
-            time_spent: site_time_spent[i],
-            comments: site_comments[i]
+            name: req.body.site_name[i],
+            rating: req.body.site_rating[i],
+            time: req.body.site_time[i],
+            time_spent: req.body.site_time_spent[i],
+            comments: req.body.site_comments[i]
         });
 
         sites.push(site);
@@ -388,6 +373,7 @@ exports.itinerary_add_post = function(req, res) {
                     time_arrive: req.body.time_arrive,
                     depart: req.body.depart,
                     time_depart: req.body.time_depart,
+                    logistics: req.body.logistics,
                     lodging: lodge,
                     sites: sites,
                     reviews: [],
@@ -399,15 +385,13 @@ exports.itinerary_add_post = function(req, res) {
                     if(err) {return next(err);}
                     res.redirect(itinerary.url);
                 });
-
-                console.log(itinerary);
             }
 
             else {
-                var city = new City({name: req.body.destination.toLowerCase});
+                var city = new City({name: req.body.destination.toLowerCase()});
                 city.save();
                 var itinerary = new Itinerary({
-                    destination: found_city,
+                    destination: city,
                     from: req.body.from,
                     by: req.body.by,
                     budget: req.body.budget,
@@ -416,6 +400,7 @@ exports.itinerary_add_post = function(req, res) {
                     time_arrive: req.body.time_arrive,
                     depart: req.body.depart,
                     time_depart: req.body.time_depart,
+                    logistics: req.body.logistics,
                     lodging: lodge,
                     sites: sites,
                     reviews: [],
@@ -432,12 +417,62 @@ exports.itinerary_add_post = function(req, res) {
 };
 
 exports.find_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Browse Page');
+    res.render('browse_form', {title: 'Search Itineraries'})
 };
 
 exports.find_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Browse Page');
+    req.checkBody('destination').optional({checkFalsy: true});
+    req.checkBody('budget').optional({checkFalsy: true});
+    req.checkBody('age_group').optional({checkFalsy: true});
+
+    req.sanitize('destination').escape();
+    req.sanitize('destination').trim();
+    req.sanitize('budget').escape();
+    req.sanitize('budget').trim();
+    req.sanitize('age_group').escape();
+    req.sanitize('age_group').trim();
+
+    var destination = req.body.destination.toLowerCase();
+    var budget = (req.body.budget.length===0) ? Number.MAX_VALUE : parseInt(req.body.budget);
+    var age_group = (typeof req.body.age_group==='undefined' || req.body.age_group.indexOf('Everyone')!==-1) ? ['Everyone', 'Young adults', 'Families', 'Couples', 'Seniors', []] : req.body.age_group.split(",");
+
+    if (req.body.destination.length===0) {
+        Itinerary.find({$or: [{'budget': {$lte:budget}, 'age_group': age_group}, {'budget': null, 'age_group': age_group}]}, 'destination from budget date_added')
+            .populate('destination')
+            .exec(function(err, results) {
+                if(err) {return next(err);}
+                res.render('results_page', {title: "Search Results", itineraries: results});
+            });
+    }
+
+    else {
+        async.waterfall([
+            function(callback) {
+                City.findOne({'name': destination})
+                    .exec(function(err, found_city) {
+                        if(err) {return next(err);}
+                        callback(null, found_city)
+                        
+                    })
+            },
+
+            function(found_city, callback) {
+                Itinerary.find({$or: [{'destination': found_city._id, 'budget': {$lte:budget}, 'age_group': age_group}, {'destination': found_city._id, 'budget': null, 'age_group': age_group}]}, 'destination from budget date_added')
+                    .populate('destination')
+                    .exec(callback);
+            }
+        ], function(err, results) {
+            if(err) {return next(err);}
+            res.render('results_page', {title: "Search Results", itineraries: results});
+        });
+
+    }
+
 };
+
+exports.search_results = function(req, res) {
+    res.render('results_page', {title: "Search Results", itineraries: results});
+}
 
 exports.itinerary_update_get = function(req, res) {
     res.send('NOT IMPLEMENTED: Update itinerary GET');
