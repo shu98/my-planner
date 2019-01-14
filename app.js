@@ -1,7 +1,7 @@
 var express = require('express');
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://hus1998:password@ds163672.mlab.com:63672/myplanner';
+var mongoDB = 'mongodb://shu98:hbSweet1998@ds163672.mlab.com:63672/myplanner';
 mongoose.connect(mongoDB);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
